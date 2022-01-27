@@ -6,6 +6,7 @@ ingredients = {'Bloodgrass': 1, 'ChromusSlime': 2, 'DriedEphedra': 5, 'EmeticWax
                'MilkweedSeeds': 10, 'WildSageroot': 5}
 
 
+
 def delAmount(entryNo, ingre, xfact):
     # get inputted number and ingriedent
     inp = int(entryNo)
@@ -85,58 +86,63 @@ def makerTotal( i1needed, i2needed, *args):
             total+=1
     return total
 
-
-
-
-
 def updateRecipe():
     if ingredients.get('WildSageroot') >= 1:
         label41.config(fg="#000000")
         label42.config(fg="#000000")
         potion1infobase.set(potion1info.get() + plusminus.get() +str(wisdomAddifier.get()))
         potion1.set(ingredients.get('WildSageroot'))
+    elif ingredients.get('WildSageroot') <=0:
+        label41.config(fg="#000000")
+        label42.config(fg="#000000")
+        potion1.set(0)
 
+    if ingredients.get('MandrakeRoot') >= 1:
+        labelManPot.config(fg="#000000")
+        labelManPot2.config(fg="#000000")
+        labelManPot3.config(fg="#000000")
+        potionMandrake.set(ingredients.get("MandrakeRoot"))
+    elif ingredients.get('MandrakeRoot') <= 0:
+        labelManPot.config(fg="#b3b3b3")
+        labelManPot2.config(fg="#b3b3b3")
+        labelManPot3.config(fg="#b3b3b3")
+        potionMandrake.set(0)
 
+    # Hyancinth
+    if ingredients.get('HyancinthNectar') >= 1:
+        labelHyanPot.config(fg="#000000")
+        labelHyanPot2.config(fg="#000000")
+        labelHyanPot3.config(fg="#000000")
+        potionHyancinth.set(ingredients.get("HyancinthNectar"))
+    elif ingredients.get('HyancinthNectar') <= 0:
+        labelHyanPot.config(fg="#b3b3b3")
+        labelHyanPot2.config(fg="#b3b3b3")
+        labelHyanPot3.config(fg="#b3b3b3")
+        potionHyancinth.set(0)
 
-    if ingredients.get('WildSageroot') >= 1 and ingredients.get('MilkweedSeeds') >=1:
-        label44.config(fg="#000000")
-        label45.config(fg="#000000")
-        potion2infobase.set(potion2info.get())
-        potion2.set(makerTotal( 1, 1, ingredients.get('WildSageroot'), ingredients.get('MilkweedSeeds')))
-    elif ingredients.get('MilkweedSeeds') < 1:
-        label44.config(fg="#b3b3b3")
-        label45.config(fg="#b3b3b3")
-        potion2.set(0)
+        # FennelSilk
+    if ingredients.get('FennelSilk') >= 1:
+        labelFennPot.config(fg="#000000")
+        labelFennPot2.config(fg="#000000")
+        labelFennPot3.config(fg="#000000")
+        potionFennel.set(ingredients.get("FennelSilk"))
+    elif ingredients.get('FennelSilk') <= 0:
+        labelFennPot.config(fg="#b3b3b3")
+        labelFennPot2.config(fg="#b3b3b3")
+        labelFennPot3.config(fg="#b3b3b3")
+        potionFennel.set(0)
 
-    if ingredients.get('WildSageroot') >= 1 and ingredients.get('MilkweedSeeds') >=2:
-        label47.config(fg="#000000")
-        label48.config(fg="#000000")
-        potion3infobase.set(potion3info.get())
-        potion3.set(makerTotal( 1, 2, ingredients.get('WildSageroot'), ingredients.get('MilkweedSeeds')))
-    elif ingredients.get('MilkweedSeeds') < 2:
-        label47.config(fg="#b3b3b3")
-        label48.config(fg="#b3b3b3")
-        potion3.set(0)
-
-    if ingredients.get('WildSageroot') >= 1 and ingredients.get('MilkweedSeeds') >=3:
-        label50.config(fg="#000000")
-        label51.config(fg="#000000")
-        potion4infobase.set(potion4info.get())
-        potion4.set(makerTotal( 1, 3, ingredients.get('WildSageroot'), ingredients.get('MilkweedSeeds')))
-    elif ingredients.get('MilkweedSeeds') < 3:
-        label50.config(fg="#b3b3b3")
-        label51.config(fg="#b3b3b3")
-        potion4.set(0)
-
-    if ingredients.get('WildSageroot') >= 1 and ingredients.get('MilkweedSeeds') >=4:
-        label53.config(fg="#000000")
-        label54.config(fg="#000000")
-        potion5infobase.set(potion5info.get())
-        potion5.set(makerTotal( 1, 4, ingredients.get('WildSageroot'), ingredients.get('MilkweedSeeds')))
-    elif ingredients.get('MilkweedSeeds') < 4:
-        label53.config(fg="#b3b3b3")
-        label54.config(fg="#b3b3b3")
-        potion5.set(0)
+        # Bloodgrass
+    if ingredients.get('Bloodgrass') >= 1:
+        labelBloodPot.config(fg="#000000")
+        labelBloodPot2.config(fg="#000000")
+        labelBloodPot3.config(fg="#000000")
+        potionBloodgrass.set(ingredients.get("Bloodgrass"))
+    elif ingredients.get('Bloodgrass') <= 0:
+        labelBloodPot.config(fg="#b3b3b3")
+        labelBloodPot2.config(fg="#b3b3b3")
+        labelBloodPot3.config(fg="#b3b3b3")
+        potionBloodgrass.set(0)
 
     if ingredients.get('DriedEphedra') >=1:
         label105.config(fg="#000000")
@@ -156,14 +162,7 @@ def updateRecipe():
         label109.config(fg="#b3b3b3")
         mat2.set(0)
 
-    if ingredients.get('HyancinthNectar') >=1:
-        labelHyanicth2.config(fg='#000000')
-        labelHyanicth1.config(fg='#000000')
-        mat3Hyan.set(ingredients.get('HyancinthNectar'))
-    elif ingredients.get('HyancinthNectar') <=0:
-        labelHyanicth2.config(fg='#b3b3b3')
-        labelHyanicth1.config(fg='#b3b3b3')
-        mat3Hyan.set(0)
+
 
     if ingredients.get('GengkoBrush') >=1:
         labelGengko1.config(fg='#000000')
@@ -174,14 +173,7 @@ def updateRecipe():
         labelGengko2.config(fg='#b3b3b3')
         mat4Geng.set(0)
 
-    if ingredients.get('FennelSilk') >=1:
-        labelFennel1.config(fg='#000000')
-        labelFennel2.config(fg='#000000')
-        mat5Fennel.set(ingredients.get('FennelSilk'))
-    elif ingredients.get('FennelSilk') <=0:
-        labelFennel1.config(fg='#b3b3b3')
-        labelFennel2.config(fg='#b3b3b3')
-        mat5Fennel.set(0)
+
 
     if ingredients.get('EmeticWax') >=1:
         labelEmetic1.config(fg='#000000')
@@ -192,14 +184,7 @@ def updateRecipe():
         labelEmetic2.config(fg='#b3b3b3')
         mat6Emetic.set(0)
 
-    if ingredients.get('MandrakeRoot') >=1:
-        labelMandrake1.config(fg='#000000')
-        labelMandrake2.config(fg='#000000')
-        mat7Mandrake.set(ingredients.get('MandrakeRoot'))
-    elif ingredients.get('MandrakeRoot') <=0:
-        labelMandrake1.config(fg='#b3b3b3')
-        labelMandrake2.config(fg='#b3b3b3')
-        mat7Mandrake.set(0)
+
 
     if ingredients.get('ChromusSlime') >= 1:
         labelChromus1.config(fg='#000000')
@@ -210,37 +195,26 @@ def updateRecipe():
         labelChromus2.config(fg='#b3b3b3')
         mat8Chromus.set(0)
 
-    if ingredients.get('Bloodgrass') >= 1:
-        labelBloodgrass1.config(fg='#000000')
-        labelBloodgrass2.config(fg='#000000')
-        mat9Bloodgrass.set(ingredients.get('Bloodgrass'))
-    elif ingredients.get('Bloodgrass') <= 0:
-        labelBloodgrass1.config(fg='#b3b3b3')
-        labelBloodgrass2.config(fg='#b3b3b3')
-        mat9Bloodgrass.set(0)
+
 
     # Misc cleaup
     # if none set back to grey
     if ingredients.get('WildSageroot') < 1:
         label41.config(fg="#b3b3b3")
         label42.config(fg="#b3b3b3")
-        label44.config(fg="#b3b3b3")
-        label45.config(fg="#b3b3b3")
-        label47.config(fg="#b3b3b3")
-        label48.config(fg="#b3b3b3")
-        label50.config(fg="#b3b3b3")
-        label51.config(fg="#b3b3b3")
-        label53.config(fg="#b3b3b3")
-        label54.config(fg="#b3b3b3")
-
     #if less than 1 make sure its 0
     if ingredients.get('WildSageroot') < 1:
         potion1.set(0)
 
-def CopyCraft(information, DRoll, DAmount, ddc):
+
+
+def CopyCraft(information, DRoll, DAmount, ddc, PTC):
     #craftinbase
+
+    global potionTypeCrafting
+    potionTypeCrafting = PTC
     craftingBase.set(information)
-    craftingFinal.set(information)
+    #craftingFinal.set(information)
     diceRolled.set(DRoll)
     diceAmount.set(DAmount)
     finalDC.set(ddc)
@@ -249,9 +223,19 @@ def CopyCraft(information, DRoll, DAmount, ddc):
     resetManualCrafting()
 
 
+
 def UpdateFinalCraft():
-    craftingFinal.set("Heals for:  " + diceRolled.get() + "d" + diceAmount.get())
-    craftingDC.set(finalDC.get())
+    if potionTypeCrafting == "wildSage_Bool":
+        craftingFinal.set("Heals for:  " + diceRolled.get() + "d" + diceAmount.get())
+        craftingDC.set(finalDC.get())
+    elif potionTypeCrafting == "hyancinth_Bool":
+        craftingFinal.set("Removes: " + diceRolled.get() + "d" + diceAmount.get() +" rounds of poison in the target’s system")
+        craftingDC.set(finalDC.get())
+    else:
+        craftingFinal.set(craftingBase.get())
+        craftingDC.set(finalDC.get())
+
+
     #print("diceamount=",diceAmount.get(), diceRolled.get())
 
 # Adding and removing manual crafting items
@@ -374,7 +358,7 @@ def MinusLavendersprig():
         UpdateFinalCraft()
         label108.config(bg="#f2ffe6")
 
-
+'''
 def AddHyancinth():
     if carryCheck(int(mat3Hyan.get()), int(usedHyanicth.get()), labelHyanicth1):
         if int(usedHyanicth.get()) ==0:
@@ -412,6 +396,7 @@ def MinusHyancinth():
         updateMinusUsed(usedHyanicth)
         UpdateFinalCraft()
         labelHyanicth1.config(bg="#f2ffe6")
+'''
 
 def AddGengko():
     if carryCheck(int(mat4Geng.get()), int(usedGengko.get()), labelGengko1):
@@ -455,7 +440,7 @@ def MinusGengko():
         UpdateFinalCraft()
         labelGengko1.config(bg="#f2ffe6")
 
-
+'''
 def AddFennel():
     if carryCheck(int(mat5Fennel.get()), int(usedFennel.get()), labelFennel1):
         if int(usedFennel.get()) == 0:
@@ -490,7 +475,7 @@ def MinusFennel():
         updateMinusUsed(usedFennel)
         UpdateFinalCraft()
         labelFennel1.config(bg="#f2ffe6")
-
+'''
 def AddEmetic():
     if carryCheck(int(mat6Emetic.get()), int(usedEmetic.get()), labelEmetic1):
         if int(usedEmetic.get()) == 0:
@@ -525,7 +510,7 @@ def MinusEmetic():
         updateMinusUsed(usedEmetic)
         UpdateFinalCraft()
         labelEmetic1.config(bg="#f2ffe6")
-
+'''
 def AddMandrake():
     if carryCheck(int(mat7Mandrake.get()), int(usedMandrake.get()), labelMandrake1):
         if int(usedMandrake.get()) == 0:
@@ -556,7 +541,7 @@ def MinusMandrake():
         updateMinusUsed(usedMandrake)
         UpdateFinalCraft()
         labelMandrake1.config(bg="#f2ffe6")
-
+'''
 def AddChromus():
     if carryCheck(int(mat8Chromus.get()), int(usedChromus.get()), labelChromus1):
         if int(usedChromus.get()) == 0:
@@ -594,7 +579,7 @@ def MinusChromus():
         finalDC.set(int(finalDC.get()) - 4)
         updateMinusUsed(usedChromus)
         UpdateFinalCraft()
-
+'''
 def AddBloodgrass():
     if carryCheck(int(mat9Bloodgrass.get()), int(usedBloodgrass.get()), labelBloodgrass1):
         if int(usedBloodgrass.get()) == 0:
@@ -631,6 +616,7 @@ def MinusBloodgrass():
         updateMinusUsed(usedBloodgrass)
         UpdateFinalCraft()
         labelBloodgrass1.config(bg="#f2ffe6")
+'''
 
 # Updates manual craftings used totals. ----------------------
 def updateAddUsed(ingrident):
@@ -651,7 +637,8 @@ def highlightcleanup():
     label40.config(bg='white')
     label41.config(bg='white')
     label42.config(bg='white')
-    label43.config(bg='white')
+   # label43.config(bg='white')
+    '''
     label44.config(bg='white')
     label45.config(bg='white')
     label46.config(bg='white')
@@ -663,6 +650,27 @@ def highlightcleanup():
     label52.config(bg='white')
     label53.config(bg='white')
     label54.config(bg='white')
+    labelHyanicth1.config(bg="white")
+    labelHyanicth2.config(bg="white")
+    labelHyanicth3.config(bg="white")
+    usedHyanicthLabel.config(bg="white")
+    labelFennel1.config(bg="white")
+    labelFennel2.config(bg="white")
+    labelFennel3.config(bg="white")
+    usedFennelLabel.config(bg="white")
+    labelMandrake1.config(bg="white")
+    labelMandrake2.config(bg="white")
+    labelMandrake3.config(bg="white")
+    usedMandrakeLabel.config(bg="white")
+    labelBloodgrass1.config(bg="white")
+    labelBloodgrass2.config(bg="white")
+    labelBloodgrass3.config(bg="white")
+    usedBloodgrassLabel.config(bg="white")
+     labelMandrake1.config(bg="white")
+    labelMandrake2.config(bg="white")
+    labelMandrake3.config(bg="white")
+    usedMandrakeLabel.config(bg="white")
+    '''
     label108.config(bg="white")
     label109.config(bg="white")
     label110.config(bg="white")
@@ -671,34 +679,35 @@ def highlightcleanup():
     label107.config(bg="white")
     usedLavenderLabel.config(bg="white")
     usedDriedELabel.config(bg="white")
-    labelHyanicth1.config(bg="white")
-    labelHyanicth2.config(bg="white")
-    labelHyanicth3.config(bg="white")
-    usedHyanicthLabel.config(bg="white")
+
+
     labelGengko1.config(bg="white")
     labelGengko2.config(bg="white")
     labelGengko3.config(bg="white")
     usedGengkoLabel.config(bg="white")
-    labelFennel1.config(bg="white")
-    labelFennel2.config(bg="white")
-    labelFennel3.config(bg="white")
-    usedFennelLabel.config(bg="white")
+
     labelEmetic1.config(bg="white")
     labelEmetic2.config(bg="white")
     labelEmetic3.config(bg="white")
     usedEmeticLabel.config(bg="white")
-    labelMandrake1.config(bg="white")
-    labelMandrake2.config(bg="white")
-    labelMandrake3.config(bg="white")
-    usedMandrakeLabel.config(bg="white")
+
     labelChromus1.config(bg="white")
     labelChromus2.config(bg="white")
     labelChromus3.config(bg="white")
     usedChromusLabel.config(bg="white")
-    labelBloodgrass1.config(bg="white")
-    labelBloodgrass2.config(bg="white")
-    labelBloodgrass3.config(bg="white")
-    usedBloodgrassLabel.config(bg="white")
+
+    labelManPot.config(bg="white")
+    labelManPot2.config(bg="white")
+    labelManPot3.config(bg="white")
+    labelHyanPot.config(bg="white")
+    labelHyanPot2.config(bg="white")
+    labelHyanPot3.config(bg="white")
+    labelFennPot.config(bg="white")
+    labelFennPot2.config(bg="white")
+    labelFennPot3.config(bg="white")
+    labelBloodPot.config(bg="white")
+    labelBloodPot2.config(bg="white")
+    labelBloodPot3.config(bg="white")
 
 def carryCheck(ingredientstock, used, label):
     if ingredientstock > used:
@@ -713,24 +722,24 @@ def resetManualCrafting():
     # Set usedingredients lavel 0
     usedLavender.set(0)
     usedDriedE.set(0)
-    usedHyanicth.set(0)
+   # usedHyanicth.set(0)
     usedGengko.set(0)
-    usedFennel.set(0)
+    #usedFennel.set(0)
     usedGengko.set(0)
-    usedMandrake.set(0)
+    #usedMandrake.set(0)
     usedEmetic.set(0)
     usedChromus.set(0)
-    usedBloodgrass.set(0)
+    #usedBloodgrass.set(0)
     updateMinusUsed(usedLavender)
     updateMinusUsed(usedDriedE)
-    updateMinusUsed(usedHyanicth)
+    #updateMinusUsed(usedHyanicth)
     updateMinusUsed(usedGengko)
-    updateMinusUsed(usedFennel)
+    #updateMinusUsed(usedFennel)
     updateMinusUsed(usedGengko)
-    updateMinusUsed(usedMandrake)
+    #updateMinusUsed(usedMandrake)
     updateMinusUsed(usedEmetic)
     updateMinusUsed(usedChromus)
-    updateMinusUsed(usedBloodgrass)
+    #updateMinusUsed(usedBloodgrass)
 
 
 # Undo button, have temp saved variables that you can paste back
@@ -771,7 +780,7 @@ WildSagerootx.set(ingredients.get('WildSageroot'))
 canvas = tk.Canvas(root, height=HEIGHT, width=WIDGHT)
 canvas.pack()
 frame = tk.Frame(root, bg='#79d2a6')
-frame.place( relwidth= 0.5, relheight=1)
+frame.place( relwidth= 0.4, relheight=1)
 
 # Title Labels
 label1 = tk.Label(frame, text="Ingredient", bg="yellow")
@@ -943,12 +952,12 @@ button1102.grid(row=11, column=4)
 
 # Frame 2, right side of the window, will be used to calculate potions dependent on what ingreidents are owned ------------------------------------------
 frame2 = tk.Frame(root, bg='#40bf80')
-frame2.place( relx=0.5, relwidth= 0.5, relheight=1)
+frame2.place( relx=0.4, relwidth= 0.6, relheight=1)
 
 # Titles for Frame 2
 label90 = tk.Label(frame2, text="Amount")
 label90.grid(row=1, column=1)
-label91 = tk.Label(frame2, text="Information", bg="grey", width=30)
+label91 = tk.Label(frame2, text="Information", bg="grey", width=50)
 label91.grid(row=1, column=2)
 label92 = tk.Label(frame2, text="DC", width=5)
 label92.grid(row=1, column=3)
@@ -962,84 +971,84 @@ potion1infobase = tk.StringVar()
 potion1infobase.set("Heals for 2d4  ")
 label40 = tk.Label(frame2, textvariable=potion1, bg="white", width=5)
 label40.grid(row=2, column=1)
-label41 = tk.Label(frame2, textvariable=potion1infobase, fg="#b3b3b3",width=30)
+label41 = tk.Label(frame2, textvariable=potion1infobase, fg="#b3b3b3",width=50)
 label41.grid(row=2, column=2)
 label42 = tk.Label(frame2, text="10", fg="#b3b3b3",width=5)
 label42.grid(row=2, column=3)
-
-#potion 2
-potion2 = tk.StringVar()
-potion2.set(0)
-potion2info = tk.StringVar()
-potion2info.set("Heals for 4d4 ")
-potion2infobase = tk.StringVar()
-potion2infobase.set("Heals for 4d4  ")
-label43 = tk.Label(frame2, textvariable=potion2, bg="white", width=5)
-label43.grid(row=3, column=1)
-label44 = tk.Label(frame2, textvariable=potion2infobase, fg="#b3b3b3",width=30)
-label44.grid(row=3, column=2)
-label45 = tk.Label(frame2, text="12", fg="#b3b3b3",width=5)
-label45.grid(row=3, column=3)
-
-#potion 3
-potion3 = tk.StringVar()
-potion3.set(0)
-potion3info = tk.StringVar()
-potion3info.set("Heals for 8d4 ")
-potion3infobase = tk.StringVar()
-potion3infobase.set("Heals for 8d4  ")
-label46 = tk.Label(frame2, textvariable=potion3, bg="white", width=5)
-label46.grid(row=4, column=1)
-label47 = tk.Label(frame2, textvariable=potion3infobase, fg="#b3b3b3",width=30)
-label47.grid(row=4, column=2)
-label48 = tk.Label(frame2, text="14", fg="#b3b3b3",width=5)
-label48.grid(row=4, column=3)
-
-#potion 4
-potion4 = tk.StringVar()
-potion4.set(0)
-potion4info = tk.StringVar()
-potion4info.set("Heals for 16d4 ")
-potion4infobase = tk.StringVar()
-potion4infobase.set("Heals for 16d4  ")
-label49 = tk.Label(frame2, textvariable=potion4, bg="white", width=5)
-label49.grid(row=5, column=1)
-label50 = tk.Label(frame2, textvariable=potion4infobase, fg="#b3b3b3",width=30)
-label50.grid(row=5, column=2)
-label51 = tk.Label(frame2, text="16", fg="#b3b3b3",width=5)
-label51.grid(row=5, column=3)
-
-#potion 5
-potion5 = tk.StringVar()
-potion5.set(0)
-potion5info = tk.StringVar()
-potion5info.set("Heals for 32d4 ")
-potion5infobase = tk.StringVar()
-potion5infobase.set("Heals for 32d4  ")
-label52 = tk.Label(frame2, textvariable=potion5, bg="white", width=5)
-label52.grid(row=6, column=1)
-label53 = tk.Label(frame2, textvariable=potion5infobase, fg="#b3b3b3",width=30)
-label53.grid(row=6, column=2)
-label54 = tk.Label(frame2, text="18", fg="#b3b3b3",width=5)
-label54.grid(row=6, column=3)
-
-buttoncraft1 = tk.Button(frame2, text= "Craft", bg='grey',height=1, command=lambda :(CopyCraft(potion1info.get(),2, 4, 10 ),highlightCrafted(label40, label41, label42) ))
+buttoncraft1 = tk.Button(frame2, text= "Craft", bg='grey',height=1, command=lambda :(CopyCraft(potion1info.get(),2, 4, 10, "wildSage_Bool"),highlightCrafted(label40, label41, label42) ))
 buttoncraft1.grid(row=2, column=4)
-buttoncraft2 = tk.Button(frame2, text= "Craft", bg='grey',height=1, command=lambda :(CopyCraft(potion2info.get(),4, 4, 12),highlightCrafted(label43, label44, label45) ))
-buttoncraft2.grid(row=3, column=4)
-buttoncraft3 = tk.Button(frame2, text= "Craft", bg='grey',height=1, command=lambda :(CopyCraft(potion3info.get(),8, 4, 14),highlightCrafted(label46, label47, label48) ))
-buttoncraft3.grid(row=4, column=4)
-buttoncraft4 = tk.Button(frame2, text= "Craft", bg='grey',height=1, command=lambda :(CopyCraft(potion4info.get(),16, 4, 16),highlightCrafted(label49, label50, label51) ))
+
+# potion Hyancinth Root
+potionHyancinth = tk.StringVar()
+potionHyancinth.set(0)
+potionHyancinthInfo = tk.StringVar()
+potionHyancinthInfo.set("Removes 1d6 rounds of poison in the target’s system.")
+potionHyancinthInfoBase = tk.StringVar()
+potionHyancinthInfoBase.set("Removes 1d6 rounds of poison in the target’s system.")
+labelHyanPot = tk.Label(frame2, textvariable=potionHyancinth, bg="white", width=5)
+labelHyanPot.grid(row=3, column=1)
+labelHyanPot2 = tk.Label(frame2, textvariable=potionHyancinthInfoBase, fg="#b3b3b3", width=50)
+labelHyanPot2.grid(row=3, column=2)
+labelHyanPot3 = tk.Label(frame2, text=11, fg="#b3b3b3", width=5)
+labelHyanPot3.grid(row=3, column=3)
+buttoncraft3 = tk.Button(frame2, text= "Craft", bg='grey',height=1, command=lambda :(CopyCraft(potionHyancinthInfo.get(),1, 6, 11, "hyancinth_Bool"),highlightCrafted(labelHyanPot, labelHyanPot2, labelHyanPot3) ))
+buttoncraft3.grid(row=3, column=4)
+
+# potion Mandrake Root
+potionMandrake = tk.StringVar()
+potionMandrake.set(0)
+potionMandrakeInfo = tk.StringVar()
+potionMandrakeInfo.set("Reduce any disease or poison’s potency by half for 2d12 hours.")
+potionMandrakeInfoBase = tk.StringVar()
+potionMandrakeInfoBase.set("Reduce any disease or poison’s potency by half for 2d12 hours.")
+labelManPot = tk.Label(frame2, textvariable=potionMandrake, bg="white", width=5)
+labelManPot.grid(row=4, column=1)
+labelManPot2 = tk.Label(frame2, textvariable=potionMandrakeInfoBase, fg="#b3b3b3", width=50)
+labelManPot2.grid(row=4, column=2)
+labelManPot3 = tk.Label(frame2, text=10, fg="#b3b3b3", width=5)
+labelManPot3.grid(row=4, column=3)
+buttoncraft2 = tk.Button(frame2, text= "Craft", bg='grey',height=1, command=lambda :(CopyCraft(potionMandrakeInfo.get(),0, 0, 10, "mandrake_Bool"),highlightCrafted(labelManPot, labelManPot2, labelManPot3) ))
+buttoncraft2.grid(row=4, column=4)
+
+
+# potion Fennel silk
+
+potionFennel = tk.StringVar()
+potionFennel.set(0)
+potionFennelInfo = tk.StringVar()
+potionFennelInfo.set("Resist cold weather or wet condition penalties for 1 hour")
+potionFennelInfoBase = tk.StringVar()
+potionFennelInfoBase.set("Resist cold weather orwet condition penalties for 1 hour")
+labelFennPot = tk.Label(frame2, textvariable=potionFennel, bg="white", width=5)
+labelFennPot.grid(row=5, column=1)
+labelFennPot2 = tk.Label(frame2, textvariable=potionFennelInfoBase, fg="#b3b3b3", width=50)
+labelFennPot2.grid(row=5, column=2)
+labelFennPot3 = tk.Label(frame2, text=10, fg="#b3b3b3", width=5)
+labelFennPot3.grid(row=5, column=3)
+buttoncraft4 = tk.Button(frame2, text= "Craft", bg='grey',height=1, command=lambda :(CopyCraft(potionFennelInfo.get(),0, 0, 12, "fennel_Bool"),highlightCrafted(labelFennPot,labelFennPot2,labelFennPot3) ))
 buttoncraft4.grid(row=5, column=4)
-buttoncraft5 = tk.Button(frame2, text= "Craft", bg='grey',height=1, command=lambda :(CopyCraft(potion5info.get(),32, 4, 18),highlightCrafted(label52, label53, label54) ))
+
+# potion Bloodgrass
+
+potionBloodgrass = tk.StringVar()
+potionBloodgrass.set(0)
+potionBloodgrassInfo = tk.StringVar()
+potionBloodgrassInfo.set("Combine with Potion ingredient to become a food source for 1 day")
+potionBloodgrassInfoBase = tk.StringVar()
+potionBloodgrassInfoBase.set("Combine with Potion ingredient to become a food source for 1 day")
+labelBloodPot = tk.Label(frame2, textvariable=potionBloodgrass, bg="white", width=5)
+labelBloodPot.grid(row=6, column=1)
+labelBloodPot2 = tk.Label(frame2, textvariable=potionBloodgrassInfoBase, fg="#b3b3b3", width=50)
+labelBloodPot2.grid(row=6, column=2)
+labelBloodPot3 = tk.Label(frame2, text=12, fg="#b3b3b3", width=5)
+labelBloodPot3.grid(row=6, column=3)
+buttoncraft5 = tk.Button(frame2, text= "Craft", bg='grey',height=1, command=lambda :(CopyCraft(potionBloodgrassInfo.get(),0, 0, 10,"bloodgrass_Bool"),highlightCrafted(labelBloodPot,labelBloodPot2 , labelBloodPot3) ))
 buttoncraft5.grid(row=6, column=4)
-
-
 
 # Frame 3 - This is the frame for manual crafting ------------------------------------------------------
 
 frame3 = tk.Frame(root, bg='#40af80')
-frame3.place(rely=0.3, relx=0.5, relwidth= 0.5, relheight=0.7)
+frame3.place(rely=0.3, relx=0.4, relwidth= 0.6, relheight=0.7)
 
 # Titles for Frame 3
 label100 = tk.Label(frame3, text="Base Craft: ", width=8, bg="#e6ccff")
@@ -1104,7 +1113,7 @@ usedLavenderLabel = tk.Label(frame3, textvariable=usedLavender, width=5 )
 usedLavenderLabel.grid(row=4, column=5)
 buttonLavenderMin = tk.Button(frame3, text= "--", bg='grey',height=1, command=lambda :MinusLavendersprig())
 buttonLavenderMin.grid(row=4, column=6)
-
+'''
 # Hyancinth Nector
 mat3Hyan = tk.StringVar()
 mat3Hyan.set(0)
@@ -1122,7 +1131,7 @@ usedHyanicthLabel = tk.Label(frame3, textvariable=usedHyanicth, width=5)
 usedHyanicthLabel.grid(row=5, column=5)
 buttonHyanicthMin = tk.Button(frame3, text="--", bg='grey', height=1, command=lambda: MinusHyancinth())
 buttonHyanicthMin.grid(row=5, column=6)
-
+'''
 # Gengko Brusg
 mat4Geng = tk.StringVar()
 mat4Geng.set(0)
@@ -1140,7 +1149,7 @@ usedGengkoLabel = tk.Label(frame3, textvariable=usedGengko, width=5)
 usedGengkoLabel.grid(row=6, column=5)
 buttonGengkoMin = tk.Button(frame3, text="--", bg='grey', height=1, command=lambda: MinusGengko())
 buttonGengkoMin.grid(row=6, column=6)
-
+'''
 # Fennel Silk
 mat5Fennel = tk.StringVar()
 mat5Fennel.set(0)
@@ -1158,7 +1167,7 @@ usedFennelLabel = tk.Label(frame3, textvariable=usedFennel, width=5)
 usedFennelLabel.grid(row=7, column=5)
 buttonFennelMin = tk.Button(frame3, text="--", bg='grey', height=1, command=lambda: MinusFennel())
 buttonFennelMin.grid(row=7, column=6)
-
+'''
 # Emetic Wax
 mat6Emetic = tk.StringVar()
 mat6Emetic.set(0)
@@ -1176,7 +1185,7 @@ usedEmeticLabel = tk.Label(frame3, textvariable=usedEmetic, width=5)
 usedEmeticLabel.grid(row=8, column=5)
 buttonEmeticMin = tk.Button(frame3, text="--", bg='grey', height=1, command=lambda: MinusEmetic())
 buttonEmeticMin.grid(row=8, column=6)
-
+'''
 # Mandrake root
 mat7Mandrake = tk.StringVar()
 mat7Mandrake.set(0)
@@ -1194,7 +1203,7 @@ usedMandrakeLabel = tk.Label(frame3, textvariable=usedMandrake, width=5)
 usedMandrakeLabel.grid(row=9, column=5)
 buttonMandrakeMin = tk.Button(frame3, text="--", bg='grey', height=1, command=lambda: MinusMandrake())
 buttonMandrakeMin.grid(row=9, column=6)
-
+'''
 # Chromus Slime
 mat8Chromus = tk.StringVar()
 mat8Chromus.set(0)
@@ -1212,7 +1221,7 @@ usedChromusLabel = tk.Label(frame3, textvariable=usedChromus, width=5)
 usedChromusLabel.grid(row=10, column=5)
 buttonChromusMin = tk.Button(frame3, text="--", bg='grey', height=1, command=lambda: MinusChromus())
 buttonChromusMin.grid(row=10, column=6)
-
+'''
 # Bloodgrass
 mat9Bloodgrass = tk.StringVar()
 mat9Bloodgrass.set(0)
@@ -1230,14 +1239,14 @@ usedBloodgrassLabel = tk.Label(frame3, textvariable=usedBloodgrass, width=5)
 usedBloodgrassLabel.grid(row=11, column=5)
 buttonBloodgrassMin = tk.Button(frame3, text="--", bg='grey', height=1, command=lambda: MinusBloodgrass())
 buttonBloodgrassMin.grid(row=11, column=6)
-
+'''
 
 # End product of crafting
 label999 = tk.Label(frame3, text="Final:", width=6, bg="#b3b3ff")
 label999.grid(row=99, column=1)
 craftingFinal = tk.StringVar()
 craftingFinal.set("")
-label901 = tk.Label(frame3, textvariable=craftingFinal, bg="#ccccff", width=30)
+label901 = tk.Label(frame3, textvariable=craftingFinal, bg="#ccccff", width=50)
 label901.grid(row=99, column=2)
 craftingDC = tk.StringVar()
 craftingDC.set(0)
