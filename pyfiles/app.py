@@ -4,14 +4,22 @@ from PIL import ImageTk, Image
 ingredients = {'Bloodgrass': 1, 'ChromusSlime': 2, 'DriedEphedra': 5, 'EmeticWax': 3, 'FennelSilk': 4,
                'GengkoBrush': 5, 'HyancinthNectar': 5, 'LavenderSprig': 6, 'MandrakeRoot': 7,
                'MilkweedSeeds': 10, 'WildSageroot': 5}
+# Window size
+HEIGHT=600
+WIDGHT=900
 
+# Crafters max potion modifier allowed (3,6,9...)
+global crafting_level
+crafting_level = 3
+global crafting_mod_cur
+crafting_mod_cur = 0
 
 
 def delAmount(entryNo, ingre, xfact):
     # get inputted number and ingriedent
     inp = int(entryNo)
     ingr = ingredients.get(ingre)
-    # add the 2 number togethor
+    # remove the 2 number togethor
     total = ingr - inp
     if total < 1:
         total = 0
@@ -235,56 +243,73 @@ def UpdateFinalCraft():
         craftingFinal.set(craftingBase.get())
         craftingDC.set(finalDC.get())
 
-
-    #print("diceamount=",diceAmount.get(), diceRolled.get())
+# Changes the label color to active green #f2ffe6
+def ActiveColorChange(*args):
+    for args in args:
+        args.config(bg="#f2ffe6")
+# Changes the label color to active white
+def ReturnColorChange(*args):
+    for args in args:
+        args.config(bg="white")
 
 # Adding and removing manual crafting items
-
 def AddDriedEphera():
+    global crafting_mod_cur
     if carryCheck(int(mat1.get()), int(usedDriedE.get()), label105):
-        if int(diceAmount.get()) == 4:
-            diceAmount.set(6)
-            finalDC.set(int(finalDC.get())+2)
-            UpdateFinalCraft()
-            updateAddUsed(usedDriedE)
-            label105.config(bg="#f2ffe6")
-            label106.config(bg="#f2ffe6")
-            label107.config(bg="#f2ffe6")
-            usedDriedELabel.config(bg="#f2ffe6")
+        if craftingLevelCheck() == False:
+            if int(diceAmount.get()) == 4:
+                diceAmount.set(6)
+                finalDC.set(int(finalDC.get())+2)
+                UpdateFinalCraft()
+                ActiveColorChange(label105, label106, label107, usedDriedELabel)
+                crafting_mod_cur +=1
+                updateAddUsed(usedDriedE)
 
-        elif int(diceAmount.get()) == 6:
-            diceAmount.set(8)
-            finalDC.set(int(finalDC.get()) + 2)
-            UpdateFinalCraft()
-            updateAddUsed(usedDriedE)
 
-        elif int(diceAmount.get()) == 8:
-            diceAmount.set(10)
-            finalDC.set(int(finalDC.get()) + 2)
-            UpdateFinalCraft()
-            updateAddUsed(usedDriedE)
+            elif int(diceAmount.get()) == 6:
+                diceAmount.set(8)
+                finalDC.set(int(finalDC.get()) + 2)
+                ActiveColorChange(label105,label106,label107, usedDriedELabel)
 
-        elif int(diceAmount.get()) == 10:
-            diceAmount.set(12)
-            finalDC.set(int(finalDC.get()) + 2)
-            UpdateFinalCraft()
-            updateAddUsed(usedDriedE)
+                crafting_mod_cur += 1
+                updateAddUsed(usedDriedE)
+                UpdateFinalCraft()
 
-        elif int(diceAmount.get()) == 12:
-            diceAmount.set(20)
-            finalDC.set(int(finalDC.get()) + 2)
-            UpdateFinalCraft()
-            updateAddUsed(usedDriedE)
-            usedDriedELabel.config(bg="#ffccb3")
-            label106.config(bg='#fff2e6')
-            label107.config(bg='#fff2e6')
+            elif int(diceAmount.get()) == 8:
+                diceAmount.set(10)
+                finalDC.set(int(finalDC.get()) + 2)
+                ActiveColorChange(label105, label106, label107, usedDriedELabel)
+                crafting_mod_cur += 1
+                updateAddUsed(usedDriedE)
+                UpdateFinalCraft()
+
+            elif int(diceAmount.get()) == 10:
+                diceAmount.set(12)
+                finalDC.set(int(finalDC.get()) + 2)
+                ActiveColorChange(label105, label106, label107, usedDriedELabel)
+                crafting_mod_cur += 1
+                updateAddUsed(usedDriedE)
+                UpdateFinalCraft()
+
+            elif int(diceAmount.get()) == 12:
+                diceAmount.set(20)
+                finalDC.set(int(finalDC.get()) + 2)
+                usedDriedELabel.config(bg="#ffccb3")
+                label106.config(bg='#fff2e6')
+                label107.config(bg='#fff2e6')
+                crafting_mod_cur += 1
+                updateAddUsed(usedDriedE)
+                UpdateFinalCraft()
+        else:
+            print("cannot comply as hit crafting limit")
 
 
 def MinusDriedEphera():
-
+    global crafting_mod_cur
     if int(diceAmount.get()) == 6:
         diceAmount.set(4)
         finalDC.set(int(finalDC.get())-2)
+        crafting_mod_cur -= 1
         UpdateFinalCraft()
         updateMinusUsed(usedDriedE)
         label105.config(bg="white")
@@ -294,23 +319,27 @@ def MinusDriedEphera():
     elif int(diceAmount.get()) == 8:
         diceAmount.set(6)
         finalDC.set(int(finalDC.get()) - 2)
+        crafting_mod_cur -= 1
         UpdateFinalCraft()
         updateMinusUsed(usedDriedE)
     elif int(diceAmount.get()) == 10:
         diceAmount.set(8)
         finalDC.set(int(finalDC.get()) - 2)
+        crafting_mod_cur -= 1
         UpdateFinalCraft()
         updateMinusUsed(usedDriedE)
 
     elif int(diceAmount.get()) == 12:
         diceAmount.set(10)
         finalDC.set(int(finalDC.get()) - 2)
+        crafting_mod_cur -= 1
         UpdateFinalCraft()
         updateMinusUsed(usedDriedE)
 
     elif int(diceAmount.get()) == 20:
         diceAmount.set(12)
         finalDC.set(int(finalDC.get()) - 2)
+        crafting_mod_cur -= 1
         UpdateFinalCraft()
         updateMinusUsed(usedDriedE)
         label105.config(bg="#f2ffe6")
@@ -320,24 +349,28 @@ def MinusDriedEphera():
 
 
 def AddLavendersprig():
+    global crafting_mod_cur
     if carryCheck(int(mat2.get()), int(usedLavender.get()), label108):
-        if int(usedLavender.get()) ==0:
-            finalDC.set(int(finalDC.get()) - 2)
-            label108.config(bg="#f2ffe6")
-            label109.config(bg="#f2ffe6")
-            label110.config(bg="#f2ffe6")
-            usedLavenderLabel.config(bg="#f2ffe6")
-            updateAddUsed(usedLavender)
-            UpdateFinalCraft()
+        if craftingLevelCheck() == False:
+            if int(usedLavender.get()) ==0:
+                finalDC.set(int(finalDC.get()) - 2)
+                label108.config(bg="#f2ffe6")
+                label109.config(bg="#f2ffe6")
+                label110.config(bg="#f2ffe6")
+                usedLavenderLabel.config(bg="#f2ffe6")
+                updateAddUsed(usedLavender)
+                UpdateFinalCraft()
+                crafting_mod_cur += 1
 
-        elif int(usedLavender.get()) >=1:
-            finalDC.set(int(finalDC.get()) - 2)
+            elif int(usedLavender.get()) >=1:
+                finalDC.set(int(finalDC.get()) - 2)
 
-            updateAddUsed(usedLavender)
-            UpdateFinalCraft()
+                updateAddUsed(usedLavender)
+                UpdateFinalCraft()
+                crafting_mod_cur += 1
 
 def MinusLavendersprig():
-
+    global crafting_mod_cur
     if int(usedLavender.get()) == 0:
         label108.config(bg="white")
         label109.config(bg="white")
@@ -345,6 +378,7 @@ def MinusLavendersprig():
 
     elif int(usedLavender.get()) ==1:
         finalDC.set(int(finalDC.get()) + 2)
+        crafting_mod_cur -= 1
         UpdateFinalCraft()
         updateMinusUsed(usedLavender)
         label108.config(bg="white")
@@ -355,69 +389,36 @@ def MinusLavendersprig():
     elif int(usedLavender.get()) >1:
         finalDC.set(int(finalDC.get()) + 2)
         updateMinusUsed(usedLavender)
+        crafting_mod_cur -= 1
         UpdateFinalCraft()
         label108.config(bg="#f2ffe6")
 
-'''
-def AddHyancinth():
-    if carryCheck(int(mat3Hyan.get()), int(usedHyanicth.get()), labelHyanicth1):
-        if int(usedHyanicth.get()) ==0:
-            labelHyanicth1.config(bg="#f2ffe6")
-            labelHyanicth2.config(bg="#f2ffe6")
-            labelHyanicth3.config(bg="#f2ffe6")
-            usedHyanicthLabel.config(bg="#f2ffe6")
-            finalDC.set(int(finalDC.get()) + 1)
-            updateAddUsed(usedHyanicth)
-            UpdateFinalCraft()
-
-        elif int(usedHyanicth.get()) >= 1:
-            finalDC.set(int(finalDC.get()) + 1)
-            updateAddUsed(usedHyanicth)
-            UpdateFinalCraft()
-
-def MinusHyancinth():
-    if int(usedHyanicth.get()) == 0:
-        labelHyanicth1.config(bg="white")
-        labelHyanicth2.config(bg="white")
-        labelHyanicth3.config(bg="white")
-        usedHyanicthLabel.config(bg="white")
-
-    elif int(usedHyanicth.get()) ==1:
-        labelHyanicth1.config(bg="white")
-        labelHyanicth2.config(bg="white")
-        labelHyanicth3.config(bg="white")
-        usedHyanicthLabel.config(bg="white")
-        finalDC.set(int(finalDC.get()) -1)
-        updateMinusUsed(usedHyanicth)
-        UpdateFinalCraft()
-
-    elif int(usedHyanicth.get()) >1:
-        finalDC.set(int(finalDC.get())-1)
-        updateMinusUsed(usedHyanicth)
-        UpdateFinalCraft()
-        labelHyanicth1.config(bg="#f2ffe6")
-'''
 
 def AddGengko():
+    global crafting_mod_cur
     if carryCheck(int(mat4Geng.get()), int(usedGengko.get()), labelGengko1):
-        if int(usedGengko.get()) == 0:
-            labelGengko1.config(bg="#f2ffe6")
-            labelGengko2.config(bg="#f2ffe6")
-            labelGengko3.config(bg="#f2ffe6")
-            usedGengkoLabel.config(bg="#f2ffe6")
-            finalDC.set(int(finalDC.get()) +2)
-            diceRolled.set(int(diceRolled.get())*2)
-            updateAddUsed(usedGengko)
-            UpdateFinalCraft()
-        elif int(usedGengko.get()) >= 1:
-            finalDC.set(int(finalDC.get()) + 2)
-            diceRolled.set(int(diceRolled.get()) * 2)
-            updateAddUsed(usedGengko)
-            UpdateFinalCraft()
+        if craftingLevelCheck() == False:
+            if int(usedGengko.get()) == 0:
+                labelGengko1.config(bg="#f2ffe6")
+                labelGengko2.config(bg="#f2ffe6")
+                labelGengko3.config(bg="#f2ffe6")
+                usedGengkoLabel.config(bg="#f2ffe6")
+                finalDC.set(int(finalDC.get()) +2)
+                diceRolled.set(int(diceRolled.get())*2)
+                updateAddUsed(usedGengko)
+                UpdateFinalCraft()
+                crafting_mod_cur += 1
+            elif int(usedGengko.get()) >= 1:
+                finalDC.set(int(finalDC.get()) + 2)
+                diceRolled.set(int(diceRolled.get()) * 2)
+                updateAddUsed(usedGengko)
+                UpdateFinalCraft()
+                crafting_mod_cur += 1
 
 
 
 def MinusGengko():
+    global crafting_mod_cur
     if int(usedGengko.get()) == 0:
         labelGengko1.config(bg="white")
         labelGengko2.config(bg="white")
@@ -431,66 +432,38 @@ def MinusGengko():
         finalDC.set(int(finalDC.get()) - 2)
         diceRolled.set(int(int(diceRolled.get()) / 2))
         updateMinusUsed(usedGengko)
+        crafting_mod_cur -= 1
         UpdateFinalCraft()
 
     elif int(int(usedGengko.get())) >1:
         finalDC.set(int(finalDC.get()) - 2)
         diceRolled.set(int(int(diceRolled.get()) / 2))
         updateMinusUsed(usedGengko)
+        crafting_mod_cur -= 1
         UpdateFinalCraft()
         labelGengko1.config(bg="#f2ffe6")
 
-'''
-def AddFennel():
-    if carryCheck(int(mat5Fennel.get()), int(usedFennel.get()), labelFennel1):
-        if int(usedFennel.get()) == 0:
-            labelFennel1.config(bg="#f2ffe6")
-            labelFennel2.config(bg="#f2ffe6")
-            labelFennel3.config(bg="#f2ffe6")
-            usedFennelLabel.config(bg="#f2ffe6")
-            finalDC.set(int(finalDC.get()) +2)
-            updateAddUsed(usedFennel)
-            UpdateFinalCraft()
-        elif int(usedFennel.get()) >= 1:
-            finalDC.set(int(finalDC.get()) + 2)
-            updateAddUsed(usedFennel)
-            UpdateFinalCraft()
-def MinusFennel():
-    if int(usedFennel.get()) == 0:
-        labelFennel1.config(bg="white")
-        labelFennel2.config(bg="white")
-        labelFennel3.config(bg="white")
-        usedFennelLabel.config(bg="white")
-    elif int(usedFennel.get()) ==1:
-        labelFennel1.config(bg="white")
-        labelFennel2.config(bg="white")
-        labelFennel3.config(bg="white")
-        usedFennelLabel.config(bg="white")
-        finalDC.set(int(finalDC.get()) - 2)
-        updateMinusUsed(usedFennel)
-        UpdateFinalCraft()
-
-    elif int(int(usedFennel.get())) >1:
-        finalDC.set(int(finalDC.get()) - 2)
-        updateMinusUsed(usedFennel)
-        UpdateFinalCraft()
-        labelFennel1.config(bg="#f2ffe6")
-'''
 def AddEmetic():
+    global crafting_mod_cur
     if carryCheck(int(mat6Emetic.get()), int(usedEmetic.get()), labelEmetic1):
-        if int(usedEmetic.get()) == 0:
-            labelEmetic1.config(bg="#f2ffe6")
-            labelEmetic2.config(bg="#f2ffe6")
-            labelEmetic3.config(bg="#f2ffe6")
-            usedEmeticLabel.config(bg="#f2ffe6")
-            finalDC.set(int(finalDC.get()) +1)
-            updateAddUsed(usedEmetic)
-            UpdateFinalCraft()
-        elif int(usedEmetic.get()) >= 1:
-            finalDC.set(int(finalDC.get()) + 1)
-            updateAddUsed(usedEmetic)
-            UpdateFinalCraft()
+        if craftingLevelCheck() == False:
+            if int(usedEmetic.get()) == 0:
+                labelEmetic1.config(bg="#f2ffe6")
+                labelEmetic2.config(bg="#f2ffe6")
+                labelEmetic3.config(bg="#f2ffe6")
+                usedEmeticLabel.config(bg="#f2ffe6")
+                finalDC.set(int(finalDC.get()) +1)
+                updateAddUsed(usedEmetic)
+                UpdateFinalCraft()
+                crafting_mod_cur += 1
+            elif int(usedEmetic.get()) >= 1:
+                finalDC.set(int(finalDC.get()) + 1)
+                updateAddUsed(usedEmetic)
+                UpdateFinalCraft()
+                crafting_mod_cur += 1
+
 def MinusEmetic():
+    global crafting_mod_cur
     if int(usedEmetic.get()) == 0:
         labelEmetic1.config(bg="white")
         labelEmetic2.config(bg="white")
@@ -503,63 +476,38 @@ def MinusEmetic():
         usedEmeticLabel.config(bg="white")
         finalDC.set(int(finalDC.get()) - 1)
         updateMinusUsed(usedEmetic)
+        crafting_mod_cur -= 1
         UpdateFinalCraft()
 
     elif int(int(usedEmetic.get())) >1:
         finalDC.set(int(finalDC.get()) - 1)
         updateMinusUsed(usedEmetic)
+        crafting_mod_cur -= 1
         UpdateFinalCraft()
         labelEmetic1.config(bg="#f2ffe6")
-'''
-def AddMandrake():
-    if carryCheck(int(mat7Mandrake.get()), int(usedMandrake.get()), labelMandrake1):
-        if int(usedMandrake.get()) == 0:
-            labelMandrake1.config(bg="#f2ffe6")
-            labelMandrake2.config(bg="#f2ffe6")
-            labelMandrake3.config(bg="#f2ffe6")
-            usedMandrakeLabel.config(bg="#f2ffe6")
-            updateAddUsed(usedMandrake)
-            UpdateFinalCraft()
-        elif int(usedMandrake.get()) >= 1:
-            updateAddUsed(usedMandrake)
-            UpdateFinalCraft()
-def MinusMandrake():
-    if int(usedMandrake.get()) == 0:
-        labelMandrake1.config(bg="white")
-        labelMandrake2.config(bg="white")
-        labelMandrake3.config(bg="white")
-        usedMandrakeLabel.config(bg="white")
-    elif int(usedMandrake.get()) ==1:
-        labelMandrake1.config(bg="white")
-        labelMandrake2.config(bg="white")
-        labelMandrake3.config(bg="white")
-        usedMandrakeLabel.config(bg="white")
-        updateMinusUsed(usedMandrake)
-        UpdateFinalCraft()
 
-    elif int(int(usedMandrake.get())) >1:
-        updateMinusUsed(usedMandrake)
-        UpdateFinalCraft()
-        labelMandrake1.config(bg="#f2ffe6")
-'''
 def AddChromus():
+    global crafting_mod_cur
     if carryCheck(int(mat8Chromus.get()), int(usedChromus.get()), labelChromus1):
-        if int(usedChromus.get()) == 0:
-            finalDC.set(int(finalDC.get()) + 4)
-            #labelChromus1.config(bg="#f2ffe6")
-            labelChromus3.config(bg='#fff2e6')
-            labelChromus2.config(bg='#fff2e6')
-            usedChromusLabel.config(bg="#ffccb3")
-            updateAddUsed(usedChromus)
-            UpdateFinalCraft()
-        elif int(usedChromus.get()) >= 1:
-            UpdateFinalCraft()
-            usedChromusLabel.config(bg="#ffccb3")
+        if craftingLevelCheck() == False:
+            if int(usedChromus.get()) == 0:
+                finalDC.set(int(finalDC.get()) + 4)
+                #labelChromus1.config(bg="#f2ffe6")
+                labelChromus3.config(bg='#fff2e6')
+                labelChromus2.config(bg='#fff2e6')
+                usedChromusLabel.config(bg="#ffccb3")
+                updateAddUsed(usedChromus)
+                UpdateFinalCraft()
+                crafting_mod_cur += 1
+            elif int(usedChromus.get()) >= 1:
+                UpdateFinalCraft()
+                usedChromusLabel.config(bg="#ffccb3")
     else:
         print("Else")
 
 
 def MinusChromus():
+    global crafting_mod_cur
     if int(usedChromus.get()) == 0:
 
         labelChromus1.config(bg="white")
@@ -573,50 +521,15 @@ def MinusChromus():
         labelChromus3.config(bg="white")
         usedChromusLabel.config(bg="white")
         updateMinusUsed(usedChromus)
+        crafting_mod_cur -= 1
         UpdateFinalCraft()
 
     elif int(int(usedChromus.get())) >1:
         finalDC.set(int(finalDC.get()) - 4)
         updateMinusUsed(usedChromus)
-        UpdateFinalCraft()
-'''
-def AddBloodgrass():
-    if carryCheck(int(mat9Bloodgrass.get()), int(usedBloodgrass.get()), labelBloodgrass1):
-        if int(usedBloodgrass.get()) == 0:
-            labelBloodgrass1.config(bg="#f2ffe6")
-            labelBloodgrass2.config(bg="#f2ffe6")
-            labelBloodgrass3.config(bg="#f2ffe6")
-            usedBloodgrassLabel.config(bg="#ffccb3")
-            updateAddUsed(usedBloodgrass)
-            UpdateFinalCraft()
-            labelBloodgrass3.config(bg='#fff2e6')
-            labelBloodgrass2.config(bg='#fff2e6')
-        elif int(usedBloodgrass.get()) >= 1:
-
-            UpdateFinalCraft()
-            usedBloodgrassLabel.config(bg="#ffccb3")
-
-
-def MinusBloodgrass():
-    if int(usedBloodgrass.get()) == 0:
-
-        labelBloodgrass1.config(bg="white")
-        labelBloodgrass2.config(bg="white")
-        labelBloodgrass3.config(bg="white")
-        usedBloodgrassLabel.config(bg="white")
-    elif int(usedBloodgrass.get()) ==1:
-        labelBloodgrass1.config(bg="white")
-        labelBloodgrass2.config(bg="white")
-        labelBloodgrass3.config(bg="white")
-        usedBloodgrassLabel.config(bg="white")
-        updateMinusUsed(usedBloodgrass)
+        crafting_mod_cur -= 1
         UpdateFinalCraft()
 
-    elif int(int(usedBloodgrass.get())) >1:
-        updateMinusUsed(usedBloodgrass)
-        UpdateFinalCraft()
-        labelBloodgrass1.config(bg="#f2ffe6")
-'''
 
 # Updates manual craftings used totals. ----------------------
 def updateAddUsed(ingrident):
@@ -637,40 +550,6 @@ def highlightcleanup():
     label40.config(bg='white')
     label41.config(bg='white')
     label42.config(bg='white')
-   # label43.config(bg='white')
-    '''
-    label44.config(bg='white')
-    label45.config(bg='white')
-    label46.config(bg='white')
-    label47.config(bg='white')
-    label48.config(bg='white')
-    label49.config(bg='white')
-    label50.config(bg='white')
-    label51.config(bg='white')
-    label52.config(bg='white')
-    label53.config(bg='white')
-    label54.config(bg='white')
-    labelHyanicth1.config(bg="white")
-    labelHyanicth2.config(bg="white")
-    labelHyanicth3.config(bg="white")
-    usedHyanicthLabel.config(bg="white")
-    labelFennel1.config(bg="white")
-    labelFennel2.config(bg="white")
-    labelFennel3.config(bg="white")
-    usedFennelLabel.config(bg="white")
-    labelMandrake1.config(bg="white")
-    labelMandrake2.config(bg="white")
-    labelMandrake3.config(bg="white")
-    usedMandrakeLabel.config(bg="white")
-    labelBloodgrass1.config(bg="white")
-    labelBloodgrass2.config(bg="white")
-    labelBloodgrass3.config(bg="white")
-    usedBloodgrassLabel.config(bg="white")
-     labelMandrake1.config(bg="white")
-    labelMandrake2.config(bg="white")
-    labelMandrake3.config(bg="white")
-    usedMandrakeLabel.config(bg="white")
-    '''
     label108.config(bg="white")
     label109.config(bg="white")
     label110.config(bg="white")
@@ -679,7 +558,6 @@ def highlightcleanup():
     label107.config(bg="white")
     usedLavenderLabel.config(bg="white")
     usedDriedELabel.config(bg="white")
-
 
     labelGengko1.config(bg="white")
     labelGengko2.config(bg="white")
@@ -709,6 +587,7 @@ def highlightcleanup():
     labelBloodPot2.config(bg="white")
     labelBloodPot3.config(bg="white")
 
+# Checks to see if the user has enough of the ingredient to craft, return true if yes, False if not
 def carryCheck(ingredientstock, used, label):
     if ingredientstock > used:
         label.config(bg='#f2ffe6')
@@ -716,37 +595,47 @@ def carryCheck(ingredientstock, used, label):
     elif ingredientstock == used:
         label.config(bg='#fff2e6')
         return False
-#fff2e6
-#f2ffe6
+
+# Resets the crafting/ingredients back to 0; clears the crafting variables
 def resetManualCrafting():
-    # Set usedingredients lavel 0
     usedLavender.set(0)
     usedDriedE.set(0)
-   # usedHyanicth.set(0)
     usedGengko.set(0)
-    #usedFennel.set(0)
     usedGengko.set(0)
-    #usedMandrake.set(0)
     usedEmetic.set(0)
     usedChromus.set(0)
-    #usedBloodgrass.set(0)
     updateMinusUsed(usedLavender)
     updateMinusUsed(usedDriedE)
-    #updateMinusUsed(usedHyanicth)
     updateMinusUsed(usedGengko)
-    #updateMinusUsed(usedFennel)
     updateMinusUsed(usedGengko)
-    #updateMinusUsed(usedMandrake)
     updateMinusUsed(usedEmetic)
     updateMinusUsed(usedChromus)
-    #updateMinusUsed(usedBloodgrass)
+    global crafting_mod_cur
+    crafting_mod_cur =0
+
+# Will set and change max amount of crafting dependent on button press, also changes color and indentation to help read
+def CraftingLevelButton(button,label,max, level, *args):
+    global crafting_level
+    button.config(relief="sunken", bg="#ccff99")
+    crafting_level = level
+    label.config(text=max)
+    for args in args:
+        args.config(relief="raised", bg="white")
 
 
 # Undo button, have temp saved variables that you can paste back
 
+# Crafting level max check
+def craftingLevelCheck():
+    if crafting_mod_cur < crafting_level:
+        print("c_mod < "+ str(crafting_mod_cur) + " c_level " + str(crafting_level))
+        return False
+    else:
+        print("c_mod >= "+ str(crafting_mod_cur) + " c_level " + str(crafting_level) )
+        return True
+    # ^ change color of max crafting variable label to show that they cannot craft more
 
-HEIGHT=600
-WIDGHT=900
+
 
 root = tk.Tk()
 root.title("Alchemy App")
@@ -792,9 +681,10 @@ label3.grid(row=0, column=2)
 
 # Update button
 button64 = tk.Button(frame, text= "Update Recipes", bg='grey',command=lambda :updateRecipe())
-button64.grid(row=16, column=6)
+button64.grid(row=17, column=6)
 
-#Character statistics part
+# Character statistics part
+# Wisdom modifier
 wisdomMod = tk.StringVar()
 wisdomMod.set(10)
 wisdomAddifier = tk.StringVar()
@@ -803,7 +693,7 @@ plusminus = tk.StringVar()
 plusminus.set("+")
 label4 = tk.Label(frame, text="Character")
 label4.grid(row= 14, column=0)
-label5 = tk.Label(frame, text="Wisdom Mod: ")
+label5 = tk.Label(frame, text="Wisdom Mod: ", width=15)
 label5.grid(row= 15, column=0)
 entryChar = tk.Entry(frame , width=5)
 entryChar.grid(row=15, column=1)
@@ -813,6 +703,18 @@ label6 = tk.Label(frame, textvariable=plusminus, width=2)
 label6.grid(row=15, column=3)
 label7 = tk.Label(frame, textvariable=wisdomAddifier, width=5)
 label7.grid(row=15, column=4)
+
+# Max modifiers allowed
+label_craft_lvl = tk.Label(frame, text="Crafter Lvl(Mods):", width=15)
+label_craft_lvl.grid(row=16, column=0)
+label_craft_mod = tk.Label(frame,text="Max 3")
+label_craft_mod.grid(row=16, column=4)
+button_craft_lvl1 = tk.Button(frame, text="lvl1", command = lambda:CraftingLevelButton(button_craft_lvl1,label_craft_mod,"Max 3" ,3, button_craft_lvl2, button_craft_lvl3))
+button_craft_lvl1.grid(row=16, column=1)
+button_craft_lvl2 = tk.Button(frame, text="lvl2", command = lambda:CraftingLevelButton(button_craft_lvl2,label_craft_mod,"Max 6" ,6, button_craft_lvl1, button_craft_lvl3))
+button_craft_lvl2.grid(row=16, column=2)
+button_craft_lvl3 = tk.Button(frame, text="lvl3", command = lambda:CraftingLevelButton(button_craft_lvl3,label_craft_mod,"Max 9" ,9, button_craft_lvl1, button_craft_lvl2))
+button_craft_lvl3.grid(row=16, column=3)
 
 # List of labels for ingredients
 label10 = tk.Label(frame, text="Bloodgrass", bg="yellow", width=15)
@@ -945,10 +847,6 @@ button11.grid(row=11, column=3)
 button1102 = tk.Button(frame, text= "Del", bg='grey',command=lambda :(delAmount(entry10.get(),'WildSageroot',WildSagerootx),clearText(entry10)) )
 button1102.grid(row=11, column=4)
 
-#Bloodgrassx = tk.StringVar()
-#Bloodgrassx.set(ingredients.get('Bloodgrass'))
-#xfact.set(ingredients.get(ingre))
-
 
 # Frame 2, right side of the window, will be used to calculate potions dependent on what ingreidents are owned ------------------------------------------
 frame2 = tk.Frame(root, bg='#40bf80')
@@ -1055,7 +953,7 @@ label100 = tk.Label(frame3, text="Base Craft: ", width=8, bg="#e6ccff")
 label100.grid(row=1, column=1)
 craftingBase = tk.StringVar()
 craftingBase.set("")
-label101 = tk.Label(frame3, textvariable=craftingBase, bg="#d9b3ff", width=30)
+label101 = tk.Label(frame3, textvariable=craftingBase, bg="#d9b3ff", width=50)
 label101.grid(row=1, column=2)
 
 label102 = tk.Label(frame3, text="Amount", width=6)
@@ -1113,25 +1011,7 @@ usedLavenderLabel = tk.Label(frame3, textvariable=usedLavender, width=5 )
 usedLavenderLabel.grid(row=4, column=5)
 buttonLavenderMin = tk.Button(frame3, text= "--", bg='grey',height=1, command=lambda :MinusLavendersprig())
 buttonLavenderMin.grid(row=4, column=6)
-'''
-# Hyancinth Nector
-mat3Hyan = tk.StringVar()
-mat3Hyan.set(0)
-labelHyanicth1 = tk.Label(frame3, textvariable=mat3Hyan, fg="#b3b3b3", width = 6)
-labelHyanicth1.grid(row=5, column=1)
-labelHyanicth2 = tk.Label(frame3, text="Removes 1d6 rounds of poison", width=30, fg="#b3b3b3")
-labelHyanicth2.grid(row=5, column=2)
-labelHyanicth3 = tk.Label(frame3, text="+1", width=5)
-labelHyanicth3.grid(row=5, column=3)
-buttonHyanicthAdd = tk.Button(frame3, text="Use", bg='grey', height=1, command=lambda: AddHyancinth())
-buttonHyanicthAdd.grid(row=5, column=4)
-usedHyanicth = tk.StringVar()
-usedHyanicth.set(0)
-usedHyanicthLabel = tk.Label(frame3, textvariable=usedHyanicth, width=5)
-usedHyanicthLabel.grid(row=5, column=5)
-buttonHyanicthMin = tk.Button(frame3, text="--", bg='grey', height=1, command=lambda: MinusHyancinth())
-buttonHyanicthMin.grid(row=5, column=6)
-'''
+
 # Gengko Brusg
 mat4Geng = tk.StringVar()
 mat4Geng.set(0)
@@ -1149,25 +1029,7 @@ usedGengkoLabel = tk.Label(frame3, textvariable=usedGengko, width=5)
 usedGengkoLabel.grid(row=6, column=5)
 buttonGengkoMin = tk.Button(frame3, text="--", bg='grey', height=1, command=lambda: MinusGengko())
 buttonGengkoMin.grid(row=6, column=6)
-'''
-# Fennel Silk
-mat5Fennel = tk.StringVar()
-mat5Fennel.set(0)
-labelFennel1 = tk.Label(frame3, textvariable=mat5Fennel, fg="#b3b3b3", width = 6)
-labelFennel1.grid(row=7, column=1)
-labelFennel2 = tk.Label(frame3, text="Stabilizes body heat ", width=30, fg="#b3b3b3")
-labelFennel2.grid(row=7, column=2)
-labelFennel3 = tk.Label(frame3, text="+2", width=5)
-labelFennel3.grid(row=7, column=3)
-buttonFennelAdd = tk.Button(frame3, text="Use", bg='grey', height=1, command=lambda: AddFennel())
-buttonFennelAdd.grid(row=7, column=4)
-usedFennel = tk.StringVar()
-usedFennel.set(0)
-usedFennelLabel = tk.Label(frame3, textvariable=usedFennel, width=5)
-usedFennelLabel.grid(row=7, column=5)
-buttonFennelMin = tk.Button(frame3, text="--", bg='grey', height=1, command=lambda: MinusFennel())
-buttonFennelMin.grid(row=7, column=6)
-'''
+
 # Emetic Wax
 mat6Emetic = tk.StringVar()
 mat6Emetic.set(0)
@@ -1185,25 +1047,7 @@ usedEmeticLabel = tk.Label(frame3, textvariable=usedEmetic, width=5)
 usedEmeticLabel.grid(row=8, column=5)
 buttonEmeticMin = tk.Button(frame3, text="--", bg='grey', height=1, command=lambda: MinusEmetic())
 buttonEmeticMin.grid(row=8, column=6)
-'''
-# Mandrake root
-mat7Mandrake = tk.StringVar()
-mat7Mandrake.set(0)
-labelMandrake1 = tk.Label(frame3, textvariable=mat7Mandrake, fg="#b3b3b3", width = 6)
-labelMandrake1.grid(row=9, column=1)
-labelMandrake2 = tk.Label(frame3, text="Disease half effectiveness for 2d12 ", width=30, fg="#b3b3b3")
-labelMandrake2.grid(row=9, column=2)
-labelMandrake3 = tk.Label(frame3, text="+0", width=5)
-labelMandrake3.grid(row=9, column=3)
-buttonMandrakeAdd = tk.Button(frame3, text="Use", bg='grey', height=1, command=lambda: AddMandrake())
-buttonMandrakeAdd.grid(row=9, column=4)
-usedMandrake = tk.StringVar()
-usedMandrake.set(0)
-usedMandrakeLabel = tk.Label(frame3, textvariable=usedMandrake, width=5)
-usedMandrakeLabel.grid(row=9, column=5)
-buttonMandrakeMin = tk.Button(frame3, text="--", bg='grey', height=1, command=lambda: MinusMandrake())
-buttonMandrakeMin.grid(row=9, column=6)
-'''
+
 # Chromus Slime
 mat8Chromus = tk.StringVar()
 mat8Chromus.set(0)
@@ -1221,25 +1065,7 @@ usedChromusLabel = tk.Label(frame3, textvariable=usedChromus, width=5)
 usedChromusLabel.grid(row=10, column=5)
 buttonChromusMin = tk.Button(frame3, text="--", bg='grey', height=1, command=lambda: MinusChromus())
 buttonChromusMin.grid(row=10, column=6)
-'''
-# Bloodgrass
-mat9Bloodgrass = tk.StringVar()
-mat9Bloodgrass.set(0)
-labelBloodgrass1 = tk.Label(frame3, textvariable=mat9Bloodgrass, fg="#b3b3b3", width = 6)
-labelBloodgrass1.grid(row=11, column=1)
-labelBloodgrass2 = tk.Label(frame3, text="food source for 1 day ", width=30, fg="#b3b3b3")
-labelBloodgrass2.grid(row=11, column=2)
-labelBloodgrass3 = tk.Label(frame3, text="+0", width=5)
-labelBloodgrass3.grid(row=11, column=3)
-buttonBloodgrassAdd = tk.Button(frame3, text="Use", bg='grey', height=1, command=lambda: AddBloodgrass())
-buttonBloodgrassAdd.grid(row=11, column=4)
-usedBloodgrass = tk.StringVar()
-usedBloodgrass.set(0)
-usedBloodgrassLabel = tk.Label(frame3, textvariable=usedBloodgrass, width=5)
-usedBloodgrassLabel.grid(row=11, column=5)
-buttonBloodgrassMin = tk.Button(frame3, text="--", bg='grey', height=1, command=lambda: MinusBloodgrass())
-buttonBloodgrassMin.grid(row=11, column=6)
-'''
+
 
 # End product of crafting
 label999 = tk.Label(frame3, text="Final:", width=6, bg="#b3b3ff")
