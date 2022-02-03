@@ -9,13 +9,27 @@ HEIGHT = 600
 WIDGHT = 950
 
 # Crafters max potion modifier allowed (3,6,9...)
-global crafting_level
+#global crafting_level
 crafting_level = 3
-global crafting_mod_cur
+#global crafting_mod_cur
 crafting_mod_cur = 0
 # whether or not the potion can be altered
 can_be_altered = False
 
+active_potion_ingredient = None
+
+# Temp Variables for undo craft button
+temp_bloodgrass = 0
+temp_chromus = 0
+temp_driedeph = 0
+temp_emetic = 0
+temp_fennel = 0
+temp_genkgo = 0
+temp_hyancinth = 0
+temp_lavender = 0
+temp_mandrake = 0
+temp_milkweed = 0
+temp_wildsage = 0
 
 def delAmount(entryNo, ingre, xfact):
     # get inputted number and ingriedent
@@ -110,6 +124,7 @@ def updateRecipe():
     elif ingredients.get('WildSageroot') <= 0:
         label41.config(fg="#000000")
         label42.config(fg="#000000")
+        #ReturnColorChange(label40,label41, label42)
         potion1.set(0)
 
     if ingredients.get('MandrakeRoot') >= 1:
@@ -253,14 +268,91 @@ def UpdateFinalCraft():
         craftingFinal.set(craftingBase.get())
         craftingDC.set(finalDC.get())
 
+def activeIngredient(ingredient):
 
-# Changes the label color to active green #f2ffe6
+    global active_potion_ingredient
+    print(active_potion_ingredient)
+
+    active_potion_ingredient = str(ingredient)
+
+    print(active_potion_ingredient)
+
+def craftPotion(potionEffect, driedEp, milkweed, lavenderSp, gengko, emeticWax, chromusSl):
+
+    global active_potion_ingredient
+    # temp local variables for crafting
+    dried_eph = int(driedEp.get())
+    milk_weed = int(milkweed.get())
+    lavender_sp = int(lavenderSp.get())
+    genkgo_bru = int(gengko.get())
+    emetic_wax = int(emeticWax.get())
+    chromus_sl = int(chromusSl.get())
+
+    # Potion effect logic check
+    if active_potion_ingredient == "PY_VAR14":
+        ingredients["WildSageroot"] = ingredients.get("WildSageroot") - 1
+    if active_potion_ingredient == "PY_VAR17":
+        ingredients["HyancinthNectar"] = ingredients.get("HyancinthNectar") - 1
+    if active_potion_ingredient == "PY_VAR20":
+        ingredients["MandrakeRoot"] = ingredients.get("MandrakeRoot") - 1
+    if active_potion_ingredient == "PY_VAR23":
+        ingredients["FennelSilk"] = ingredients.get("FennelSilk") - 1
+    if active_potion_ingredient == "PY_VAR26":
+        ingredients["Bloodgrass"] = ingredients.get("Bloodgrass") - 1
+
+
+    # Potion modifier Logic check
+    if dried_eph >= 1:
+        while dried_eph >0:
+            delAmount(int(driedEp.get()), 'DriedEphedra', DriedEphedrax)
+            MinusDriedEphera()
+            updateMinusUsed(usedDriedE)
+            dried_eph -= 1
+    if milk_weed >= 1:
+        while milk_weed >0:
+            delAmount(int(milkweed.get()), 'MilkweedSeeds', MilkweedSeedsx)
+            MinusMilkweed()
+            updateMinusUsed(usedMilkweed)
+            milk_weed -= 1
+    if lavender_sp >= 1:
+        while lavender_sp >0:
+            delAmount(int(lavenderSp.get()), 'LavenderSprig', LavenderSprigx)
+            MinusLavendersprig()
+            updateMinusUsed(usedLavender)
+            lavender_sp -= 1
+    if genkgo_bru >= 1:
+        while genkgo_bru >0:
+            delAmount(int(gengko.get()), 'GengkoBrush', GengkoBrushx)
+            MinusGengko()
+            updateMinusUsed(usedGengko)
+            genkgo_bru -= 1
+    if emetic_wax >= 1:
+        while emetic_wax >0:
+            delAmount(int(emeticWax.get()), 'EmeticWax', EmeticWaxx)
+            MinusEmetic()
+            updateMinusUsed(usedEmetic)
+
+            emetic_wax -= 1
+    if chromus_sl >= 1:
+        while chromus_sl >0:
+            delAmount(int(chromusSl.get()), 'ChromusSlime', ChromusSlimex)
+            MinusChromus()
+            updateMinusUsed(usedChromus)
+
+            chromus_sl -= 1
+    updateRecipe()
+    UpdateFinalCraft()
+
+
+
+
+# Changes the label color to active green #ccff99
 def ActiveColorChange(*args):
     for args in args:
         args.config(bg="#ccff99")
 
 
-# Changes the label color to active white
+# Changes the label color to passive white
 def ReturnColorChange(*args):
     for args in args:
         args.config(bg="white")
@@ -321,16 +413,20 @@ def AddDriedEphera():
 
 def MinusDriedEphera():
     global crafting_mod_cur
+    if int(usedDriedE.get()) == 0:
+        ReturnColorChange(label105, label106, label107, usedDriedELabel)
+    if int(usedDriedE.get()) == 1:
+        ReturnColorChange(label105, label106, label107, usedDriedELabel)
+
     if int(diceAmount.get()) == 6:
         diceAmount.set(4)
         finalDC.set(int(finalDC.get()) - 2)
+        ReturnColorChange(label105, label106, label107, usedDriedELabel)
         crafting_mod_cur -= 1
         UpdateFinalCraft()
         updateMinusUsed(usedDriedE)
-        label105.config(bg="white")
-        label106.config(bg="white")
-        label107.config(bg="white")
-        usedDriedELabel.config(bg="white")
+        ReturnColorChange(label105,label106,label107,usedDriedELabel)
+
     elif int(diceAmount.get()) == 8:
         diceAmount.set(6)
         finalDC.set(int(finalDC.get()) - 2)
@@ -935,7 +1031,7 @@ label41 = tk.Label(frame2, textvariable=potion1infobase, fg="#b3b3b3", width=50)
 label41.grid(row=2, column=2)
 label42 = tk.Label(frame2, text="10", fg="#b3b3b3", width=5)
 label42.grid(row=2, column=3)
-buttoncraft1 = tk.Button(frame2, text="Craft", bg='grey', height=1, command=lambda: (CopyCraft(potion1info.get(), 2, 4, 10, "wildSage_Bool", True), highlightCrafted(label40, label41, label42)))
+buttoncraft1 = tk.Button(frame2, text="Craft", bg='grey', height=1, command=lambda: (CopyCraft(potion1info.get(), 2, 4, 10, "wildSage_Bool", True), highlightCrafted(label40, label41, label42),activeIngredient(potion1) ))
 buttoncraft1.grid(row=2, column=4)
 
 # potion Hyancinth Root
@@ -951,7 +1047,7 @@ labelHyanPot2 = tk.Label(frame2, textvariable=potionHyancinthInfoBase, fg="#b3b3
 labelHyanPot2.grid(row=3, column=2)
 labelHyanPot3 = tk.Label(frame2, text=11, fg="#b3b3b3", width=5)
 labelHyanPot3.grid(row=3, column=3)
-buttoncraft3 = tk.Button(frame2, text="Craft", bg='grey', height=1, command=lambda: (CopyCraft(potionHyancinthInfo.get(), 1, 6, 11, "hyancinth_Bool", True), highlightCrafted(labelHyanPot, labelHyanPot2, labelHyanPot3)))
+buttoncraft3 = tk.Button(frame2, text="Craft", bg='grey', height=1, command=lambda: (CopyCraft(potionHyancinthInfo.get(), 1, 6, 11, "hyancinth_Bool", True), highlightCrafted(labelHyanPot, labelHyanPot2, labelHyanPot3),activeIngredient(potionHyancinth)))
 buttoncraft3.grid(row=3, column=4)
 
 # potion Mandrake Root
@@ -967,7 +1063,7 @@ labelManPot2 = tk.Label(frame2, textvariable=potionMandrakeInfoBase, fg="#b3b3b3
 labelManPot2.grid(row=4, column=2)
 labelManPot3 = tk.Label(frame2, text=10, fg="#b3b3b3", width=5)
 labelManPot3.grid(row=4, column=3)
-buttoncraft2 = tk.Button(frame2, text="Craft", bg='grey', height=1, command=lambda: (CopyCraft(potionMandrakeInfo.get(), 0, 0, 10, "mandrake_Bool", False), highlightCrafted(labelManPot, labelManPot2, labelManPot3)))
+buttoncraft2 = tk.Button(frame2, text="Craft", bg='grey', height=1, command=lambda: (CopyCraft(potionMandrakeInfo.get(), 0, 0, 10, "mandrake_Bool", False), highlightCrafted(labelManPot, labelManPot2, labelManPot3),activeIngredient(potionMandrake)))
 buttoncraft2.grid(row=4, column=4)
 
 # potion Fennel silk
@@ -984,7 +1080,7 @@ labelFennPot2 = tk.Label(frame2, textvariable=potionFennelInfoBase, fg="#b3b3b3"
 labelFennPot2.grid(row=5, column=2)
 labelFennPot3 = tk.Label(frame2, text=10, fg="#b3b3b3", width=5)
 labelFennPot3.grid(row=5, column=3)
-buttoncraft4 = tk.Button(frame2, text="Craft", bg='grey', height=1, command=lambda: (CopyCraft(potionFennelInfo.get(), 0, 0, 12, "fennel_Bool", False), highlightCrafted(labelFennPot, labelFennPot2, labelFennPot3)))
+buttoncraft4 = tk.Button(frame2, text="Craft", bg='grey', height=1, command=lambda: (CopyCraft(potionFennelInfo.get(), 0, 0, 12, "fennel_Bool", False), highlightCrafted(labelFennPot, labelFennPot2, labelFennPot3),activeIngredient(potionFennel)))
 buttoncraft4.grid(row=5, column=4)
 
 # potion Bloodgrass
@@ -1001,7 +1097,7 @@ labelBloodPot2 = tk.Label(frame2, textvariable=potionBloodgrassInfoBase, fg="#b3
 labelBloodPot2.grid(row=6, column=2)
 labelBloodPot3 = tk.Label(frame2, text=12, fg="#b3b3b3", width=5)
 labelBloodPot3.grid(row=6, column=3)
-buttoncraft5 = tk.Button(frame2, text="Craft", bg='grey', height=1, command=lambda: (CopyCraft(potionBloodgrassInfo.get(), 0, 0, 10, "bloodgrass_Bool", False), highlightCrafted(labelBloodPot, labelBloodPot2, labelBloodPot3)))
+buttoncraft5 = tk.Button(frame2, text="Craft", bg='grey', height=1, command=lambda: (CopyCraft(potionBloodgrassInfo.get(), 0, 0, 10, "bloodgrass_Bool", False), highlightCrafted(labelBloodPot, labelBloodPot2, labelBloodPot3),activeIngredient(potionBloodgrass)))
 buttoncraft5.grid(row=6, column=4)
 
 # Frame 3 - This is the frame for manual crafting ------------------------------------------------------
@@ -1164,5 +1260,8 @@ final_additional = tk.StringVar()
 final_additional.set("")
 label_final_additional = tk.Label(frame3, textvariable=final_additional, width=50, height=4)
 label_final_additional.grid(row=100, column=2)
+
+craft_potion_button = tk.Button(frame3, text="Craft", bg='grey', height=1, command=lambda: craftPotion(1,usedDriedE,usedMilkweed,usedLavender,usedGengko,usedEmetic,usedChromus))
+craft_potion_button.grid(row=101, column=1)
 
 root.mainloop()
