@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import ImageTk, Image
 
+# Dictionary for ingredients
 ingredients = {'Bloodgrass': 15, 'ChromusSlime': 2, 'DriedEphedra': 5, 'EmeticWax': 4, 'FennelSilk': 11,
                'GengkoBrush': 3, 'HyancinthNectar': 14, 'LavenderSprig': 2, 'MandrakeRoot': 12,
                'MilkweedSeeds': 1, 'WildSageroot': 13}
@@ -9,13 +10,11 @@ HEIGHT = 600
 WIDGHT = 950
 
 # Crafters max potion modifier allowed (3,6,9...)
-#global crafting_level
 crafting_level = 3
-#global crafting_mod_cur
 crafting_mod_cur = 0
-# whether or not the potion can be altered
+# Whether the potion can be altered
 can_be_altered = False
-
+# Used for setting active potion effect ingredient
 active_potion_ingredient = None
 
 # Temp Variables for undo craft button
@@ -31,27 +30,28 @@ temp_mandrake = 0
 temp_milkweed = 0
 temp_wildsage = 0
 
+# Removes x amount from ingredient and set stringVar
 def delAmount(entryNo, ingre, xfact):
-    # get inputted number and ingriedent
+    # get inputted number and ingredient
     inp = int(entryNo)
     ingr = ingredients.get(ingre)
-    # remove the 2 number togethor
+    # remove the 2 number together
     total = ingr - inp
     if total < 1:
         total = 0
-    # update dictionery with new number
+    # update dictionary with new number
     ingredients[ingre] = total
     xfact.set(ingredients.get(ingre))
     updateRecipe()
 
-
+# Adds x amount from ingredient and set stringVar
 def addAmount(entryNo, ingre, xfact):
-    # get inputted number and ingriedent
+    # get inputted number and ingredient
     inp = int(entryNo)
     ingr = ingredients.get(ingre)
-    # add the 2 number togethor
+    # add the 2 number together
     total = inp + ingr
-    # update dictionery with new number
+    # update dictionary with new number
     ingredients[ingre] = total
     # update string var with new val
     xfact.set(ingredients.get(ingre))
@@ -62,11 +62,10 @@ def addAmount(entryNo, ingre, xfact):
 def clearText(entry):
     entry.delete(0, 'end')
 
-
 def deslectText(entry):
     entry.select_clear()
 
-
+# Will set the wisdom modifier based on total wisdom score
 def setCharWisdom(entry):
     wisdomMod = int(entry)
     buttonChar.config(bg='green')
@@ -114,7 +113,7 @@ def makerTotal(i1needed, i2needed, *args):
             total += 1
     return total
 
-
+# Updates ingredients by setting label/stringVars to dictionary values. Text color will change if >0.
 def updateRecipe():
     if ingredients.get('WildSageroot') >= 1:
         label41.config(fg="#000000")
@@ -150,7 +149,7 @@ def updateRecipe():
         labelHyanPot3.config(fg="#b3b3b3")
         potionHyancinth.set(0)
 
-        # FennelSilk
+    # FennelSilk
     if ingredients.get('FennelSilk') >= 1:
         labelFennPot.config(fg="#000000")
         labelFennPot2.config(fg="#000000")
@@ -162,7 +161,7 @@ def updateRecipe():
         labelFennPot3.config(fg="#b3b3b3")
         potionFennel.set(0)
 
-        # Bloodgrass
+    # Bloodgrass
     if ingredients.get('Bloodgrass') >= 1:
         labelBloodPot.config(fg="#000000")
         labelBloodPot2.config(fg="#000000")
@@ -173,7 +172,7 @@ def updateRecipe():
         labelBloodPot2.config(fg="#b3b3b3")
         labelBloodPot3.config(fg="#b3b3b3")
         potionBloodgrass.set(0)
-
+    # DriedEphedra
     if ingredients.get('DriedEphedra') >= 1:
         label105.config(fg="#000000")
         label106.config(fg="#000000")
@@ -182,7 +181,7 @@ def updateRecipe():
         label105.config(fg="#b3b3b3")
         label106.config(fg="#b3b3b3")
         mat1.set(0)
-
+    # LavenderSprig
     if ingredients.get('LavenderSprig') >= 1:
         label108.config(fg="#000000")
         label109.config(fg="#000000")
@@ -191,7 +190,7 @@ def updateRecipe():
         label108.config(fg="#b3b3b3")
         label109.config(fg="#b3b3b3")
         mat2.set(0)
-
+    # Gengko Brush
     if ingredients.get('GengkoBrush') >= 1:
         labelGengko1.config(fg='#000000')
         labelGengko2.config(fg='#000000')
@@ -200,7 +199,7 @@ def updateRecipe():
         labelGengko1.config(fg='#b3b3b3')
         labelGengko2.config(fg='#b3b3b3')
         mat4Geng.set(0)
-
+    # Emetic Wax
     if ingredients.get('EmeticWax') >= 1:
         labelEmetic1.config(fg='#000000')
         labelEmetic2.config(fg='#000000')
@@ -209,7 +208,7 @@ def updateRecipe():
         labelEmetic1.config(fg='#b3b3b3')
         labelEmetic2.config(fg='#b3b3b3')
         mat6Emetic.set(0)
-
+    # Chromus Slime
     if ingredients.get('ChromusSlime') >= 1:
         labelChromus1.config(fg='#000000')
         labelChromus2.config(fg='#000000')
@@ -218,7 +217,7 @@ def updateRecipe():
         labelChromus1.config(fg='#b3b3b3')
         labelChromus2.config(fg='#b3b3b3')
         mat8Chromus.set(0)
-
+    # Milkweed Seeds
     if ingredients.get('MilkweedSeeds') >= 1:
         labelMilkweed1.config(fg='#000000')
         labelMilkweed2.config(fg='#000000')
@@ -227,8 +226,6 @@ def updateRecipe():
         labelMilkweed1.config(fg='#b3b3b3')
         labelMilkweed2.config(fg='#b3b3b3')
         mat9Milkweed.set(0)
-
-    #
 
     # Misc cleaup
     # if none set back to grey
@@ -239,7 +236,7 @@ def updateRecipe():
     if ingredients.get('WildSageroot') < 1:
         potion1.set(0)
 
-
+# Copies and sets the manual crafting values
 def CopyCraft(information, DRoll, DAmount, ddc, PTC, alteredBool):
     # craftinbase
     global can_be_altered
@@ -255,7 +252,7 @@ def CopyCraft(information, DRoll, DAmount, ddc, PTC, alteredBool):
     UpdateFinalCraft()
     resetManualCrafting()
 
-
+# Main update function for manual crafting. Sets crafting final by getting dRolled, dAmount, DC.
 def UpdateFinalCraft():
     if potionTypeCrafting == "wildSage_Bool":
         craftingFinal.set("Heals for:  " + diceRolled.get() + "d" + diceAmount.get())
@@ -268,19 +265,16 @@ def UpdateFinalCraft():
         craftingFinal.set(craftingBase.get())
         craftingDC.set(finalDC.get())
 
+# Sets the active potion effect ingredient. (used to edit which amount to add/remove from)
 def activeIngredient(ingredient):
-
     global active_potion_ingredient
-    print(active_potion_ingredient)
-
     active_potion_ingredient = str(ingredient)
 
-    print(active_potion_ingredient)
-
+# Main crafting function. Will remove the used ingredients from their respective totals.
 def craftPotion(potionEffect, driedEp, milkweed, lavenderSp, gengko, emeticWax, chromusSl):
-
     global active_potion_ingredient
-    # temp local variables for crafting
+
+    # local variables for crafting
     dried_eph = int(driedEp.get())
     milk_weed = int(milkweed.get())
     lavender_sp = int(lavenderSp.get())
@@ -288,6 +282,7 @@ def craftPotion(potionEffect, driedEp, milkweed, lavenderSp, gengko, emeticWax, 
     emetic_wax = int(emeticWax.get())
     chromus_sl = int(chromusSl.get())
 
+    setUndoVariables()
     # Potion effect logic check
     if active_potion_ingredient == "PY_VAR14":
         ingredients["WildSageroot"] = ingredients.get("WildSageroot") - 1
@@ -340,23 +335,82 @@ def craftPotion(potionEffect, driedEp, milkweed, lavenderSp, gengko, emeticWax, 
             updateMinusUsed(usedChromus)
 
             chromus_sl -= 1
+
     updateRecipe()
     UpdateFinalCraft()
 
+# temp variables ready for undo button
+def setUndoVariables():
+    # temp_variables
+    global temp_bloodgrass, temp_chromus, temp_driedeph, temp_emetic, temp_fennel, temp_genkgo, temp_hyancinth, temp_lavender, \
+        temp_mandrake, temp_milkweed, temp_wildsage
+    # used_variables
+    global usedChromus,usedDriedE, usedEmetic, usedGengko, usedLavender, usedMilkweed
+    temp_chromus = int(usedChromus.get())
+    temp_driedeph = int(usedDriedE.get())
+    temp_emetic = int(usedEmetic.get())
+    temp_genkgo = int(usedGengko.get())
+    temp_lavender = int(usedLavender.get())
+    temp_milkweed = int(usedMilkweed.get())
+    if active_potion_ingredient == "PY_VAR14":
+        temp_wildsage = 1
+    if active_potion_ingredient == "PY_VAR17":
+        temp_hyancinth = 1
+    if active_potion_ingredient == "PY_VAR20":
+        temp_mandrake = 1
+    if active_potion_ingredient == "PY_VAR23":
+        temp_fennel = 1
+    if active_potion_ingredient == "PY_VAR26":
+        temp_bloodgrass = 1
 
 
+# Undo button, have temp saved variables that you can paste back
+def undoButton():
+    global temp_bloodgrass, temp_chromus,temp_driedeph,temp_emetic,temp_fennel,temp_genkgo,temp_hyancinth,temp_lavender,\
+        temp_mandrake,temp_milkweed,temp_wildsage
+
+    addAmount(temp_driedeph, 'DriedEphedra',DriedEphedrax)
+    addAmount(temp_lavender, 'LavenderSprig', LavenderSprigx)
+    addAmount(temp_bloodgrass, 'Bloodgrass', Bloodgrassx)
+    addAmount(temp_chromus, 'ChromusSlime', ChromusSlimex)
+    addAmount(temp_emetic, 'EmeticWax', EmeticWaxx)
+    addAmount(temp_fennel, 'FennelSilk', FennelSilkx)
+    addAmount(temp_genkgo, 'GengkoBrush', GengkoBrushx)
+    addAmount(temp_hyancinth, 'HyancinthNectar', HyancinthNectarx)
+    addAmount(temp_mandrake, 'MandrakeRoot', MandrakeRootx)
+    addAmount(temp_milkweed, 'MilkweedSeeds', MilkweedSeedsx)
+    addAmount(temp_wildsage, 'WildSageroot', WildSagerootx)
+    # Set temp back to 0 after completion
+    temp_bloodgrass = 0
+    temp_chromus = 0
+    temp_driedeph = 0
+    temp_emetic = 0
+    temp_genkgo = 0
+    temp_hyancinth = 0
+    temp_lavender = 0
+    temp_mandrake = 0
+    temp_milkweed = 0
+    temp_wildsage = 0
+    temp_fennel = 0
+    # tried ,,,,= 0 but gives "TypeError: cannot unpack non-iterable int object"???
 
 # Changes the label color to active green #ccff99
 def ActiveColorChange(*args):
     for args in args:
         args.config(bg="#ccff99")
 
-
 # Changes the label color to passive white
 def ReturnColorChange(*args):
     for args in args:
         args.config(bg="white")
 
+# Adds information onto current information
+def AddtionalInformationAdder(info):
+    final_additional.set(final_additional.get() + info)
+# Removes information from current information
+def AdditionalInformationRemover(info):
+    temp = final_additional.get().replace(info, "")
+    final_additional.set(temp)
 
 # Adding and removing manual crafting items
 def AddDriedEphera():
@@ -409,7 +463,6 @@ def AddDriedEphera():
                     UpdateFinalCraft()
             else:
                 print("cannot comply as hit crafting limit")
-
 
 def MinusDriedEphera():
     global crafting_mod_cur
@@ -523,15 +576,6 @@ def AddGengko():
 
     else:
         final_additional.set("Cannot be altered by other ingredients.")
-
-
-def AddtionalInformationAdder(info):
-    final_additional.set(final_additional.get() + info)
-
-
-def AdditionalInformationRemover(info):
-    temp = final_additional.get().replace(info, "")
-    final_additional.set(temp)
 
 
 def MinusGengko():
@@ -688,24 +732,23 @@ def MinusMilkweed():
         labelMilkweed1.config(bg="#f2ffe6")
 
 
-# Updates manual craftings used totals. ----------------------
+# Updates manual crafting used totals.
 def updateAddUsed(ingrident):
     ingrident.set(int(ingrident.get()) + 1)
-
 
 def updateMinusUsed(ingrident):
     ingrident.set(int(ingrident.get()) - 1)
     if int(ingrident.get()) <= 0:
         ingrident.set(0)
 
-
+# Set selected crafting ingredient to active green
 def highlightCrafted(selectedAmount, selectedInfo, selectedDC):
     highlightcleanup()
     selectedAmount.config(bg="#ccff99")
     selectedInfo.config(bg="#ccff99")
     selectedDC.config(bg="#ccff99")
 
-
+# Resets all crafting labels back to white
 def highlightcleanup():
     ReturnColorChange(label40, label41, label42, label108, label109, label110, label105, label106, label107,
                       usedLavenderLabel, usedDriedELabel,
@@ -758,22 +801,21 @@ def CraftingLevelButton(button, label, max, level, *args):
         args.config(relief="raised", bg="white")
 
 
-# Undo button, have temp saved variables that you can paste back
+
 
 # Crafting level max check
 def craftingLevelCheck():
     if crafting_mod_cur < crafting_level:
-        print("c_mod < " + str(crafting_mod_cur) + " c_level " + str(crafting_level))
+        #label_craft_mod.config(bg="white")
         return False
     else:
-        print("c_mod >= " + str(crafting_mod_cur) + " c_level " + str(crafting_level))
+        #label_craft_mod.config(bg="red")
         return True
     # ^ change color of max crafting variable label to show that they cannot craft more
 
-
+# Sets the root for tkinter, set title of tkinteer window.
 root = tk.Tk()
 root.title("Alchemy App")
-# could potentially do bloodgrassx, chromusslimex....,driedepherdax = tk.stringvar()
 
 # StringVars for ingredients(allows for amount to be updated on button press
 Bloodgrassx = tk.StringVar()
@@ -1006,7 +1048,7 @@ button1102 = tk.Button(frame, text="Del", bg='grey',
                        command=lambda: (delAmount(entry10.get(), 'WildSageroot', WildSagerootx), clearText(entry10)))
 button1102.grid(row=11, column=4)
 
-# Frame 2, right side of the window, will be used to calculate potions dependent on what ingredients are owned ---
+# Frame 2, right upper side of window. Potion effects which are needed as a base for crafting.
 frame2 = tk.Frame(root, bg='#40bf80')
 frame2.place(relx=0.4, relwidth=0.6, relheight=1)
 
@@ -1018,7 +1060,7 @@ label91.grid(row=1, column=2)
 label92 = tk.Label(frame2, text="DC", width=5)
 label92.grid(row=1, column=3)
 
-# Potion 1
+# potion Wildsage
 potion1 = tk.StringVar()
 potion1.set(0)
 potion1info = tk.StringVar()
@@ -1067,7 +1109,6 @@ buttoncraft2 = tk.Button(frame2, text="Craft", bg='grey', height=1, command=lamb
 buttoncraft2.grid(row=4, column=4)
 
 # potion Fennel silk
-
 potionFennel = tk.StringVar()
 potionFennel.set(0)
 potionFennelInfo = tk.StringVar()
@@ -1084,7 +1125,6 @@ buttoncraft4 = tk.Button(frame2, text="Craft", bg='grey', height=1, command=lamb
 buttoncraft4.grid(row=5, column=4)
 
 # potion Bloodgrass
-
 potionBloodgrass = tk.StringVar()
 potionBloodgrass.set(0)
 potionBloodgrassInfo = tk.StringVar()
@@ -1256,12 +1296,19 @@ label902.grid(row=99, column=3)
 label_additional = tk.Label(frame3, text="Additional", width=6)
 label_additional.grid(row=100, column=1)
 '''
+# Additional information when needed
 final_additional = tk.StringVar()
 final_additional.set("")
 label_final_additional = tk.Label(frame3, textvariable=final_additional, width=50, height=4)
 label_final_additional.grid(row=100, column=2)
 
+# Button that craftPotion is linked to
 craft_potion_button = tk.Button(frame3, text="Craft", bg='grey', height=1, command=lambda: craftPotion(1,usedDriedE,usedMilkweed,usedLavender,usedGengko,usedEmetic,usedChromus))
 craft_potion_button.grid(row=101, column=1)
+
+# Button undoCraft is linked to
+undo_craft_button = tk.Button(frame3, text="Undo", bg='grey', height=1, command=lambda: undoButton())
+undo_craft_button.grid(row=101, column=5)
+
 
 root.mainloop()
